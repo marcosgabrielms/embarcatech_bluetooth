@@ -1,30 +1,29 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include "bluetooth.h"
+#include "hardware/uart.h"
 
-int main () {
-    stdio_init_all();
-    bluetooth_init();
+#define UART_ID uart0
+#define BAUD_RATE 9600
 
-    char buffer[64];
-    int index = 0;
+#define UART_TX_PIN 16   // GP16: envia da placa para o módulo 
+#define UART_RX_PIN 17   // GP17: recebe do módulo
 
-    printf("Aguardando dados do Bluetooth... \n");
+int main() {
+    stdio_init_all();  // Inicializa USB-Serial para monitoramento
 
-    while(true){
-        if (bluetooth_available()) {
-            char c = bluetooth_read_char();
-           
-            printf("%c, c"); // Exibe caractere recebido no monitor serial USB
-            
-            // Armazena no buffer até '\n' ou limite
-            if (c == '\n' || index >= sizeof(buffer) - 1) {
-                buffer[index] = '\0';
-                printf("\nMensagem recebida: %s\n", buffer);
-                index = 0; // reseta buffer
-            } else if (c != '\r') {
-                buffer[index++] = c;
-            }
+    // Inicializa a UART (Bluetooth)
+    uart_init(UART_ID, BAUD_RATE);
+    gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
+    gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
+
+    printf("Aguardando mensagem Bluetooth...\n");
+
+    // Loop principal
+    while (true) {
+        // Verifica se há dados recebidos via Bluetooth
+        if (uart_is_readable(UART_ID)) {
+            char ch = uart_getc(UART_ID);
+            printf("%c", ch);  // Exibe no monitor serial
         }
     }
 }

@@ -1,10 +1,15 @@
-#ifndef BLUETOOTH_H //Diretiva de pré-processador em C//
+#ifndef BLUETOOTH_H
 #define BLUETOOTH_H
 
-#include "pico/stdlib.h"
+#include <stdbool.h>
 
+// Inicializa a UART para comunicação com o módulo HC-05
 void bluetooth_init(void);
-int bluetooth_available(void);
+
+// Retorna true se há dados disponíveis para leitura
+bool bluetooth_available(void);
+
+// Lê um caractere da UART Bluetooth
 char bluetooth_read_char(void);
 
-#endif
+#endif // BLUETOOTH_H

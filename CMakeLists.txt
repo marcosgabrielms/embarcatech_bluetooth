@@ -52,12 +52,13 @@ target_include_directories(embarcatech_bluetooth PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/src/bluetooth
+    
 )
 
 # Bibliotecas necessárias
 target_link_libraries(embarcatech_bluetooth 
         pico_stdlib
-        hardware_i2c
+        hardware_uart
         pico_cyw43_arch_lwip_threadsafe_background
         )
 
