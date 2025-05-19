@@ -88,61 +88,27 @@ int main() {
     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
 
-
-    char message_2[30];
-    snprintf(message_2, sizeof(message_2), "WAITING DATA");
-    display_message(&display, 20, 32, 1, message_2); // Exibe mensagem no display
+    char message_2[20];
+    snprintf(message_2, sizeof(message_2), "STAY MESSAGE");
+    display_message(&display, 20, 15, 1, message_2); // Exibe mensagem no display
     display_show(&display); // Atualiza o display
 
-    sleep_ms(1000); // Aguarda 1 segundos
+    sleep_ms(2000); // Aguarda 2 segundos
 
     // Loop principal
     while (true) {
 
         display_clear(&display); // Limpa o display
 
-        // Envia comando AT para verificar o estado da conexão
-        uart_puts(UART_ID, "AT+STATE?\r\n");
-        sleep_ms(100); // Dá um tempo para o HC-05 responder
-
-        char status_response[50] = {0};
+        // Verifica se há dados recebidos via Bluetooth
         if (uart_is_readable(UART_ID)) {
-            uart_read_blocking(UART_ID, (uint8_t*)status_response, sizeof(status_response) - 1);
-            printf("HC-05 State Resp: %s\n", status_response); 
+            char message[50];
+            uart_get_string(UART_ID, message, sizeof(message)); // Lê a string recebida
+            display_message(&display, 0, 32, 1, message);
+            display_show(&display); // Atualiza o display
+            printf("%s", message);  // Exibe no monitor serial
         }
-
-        // Verifica se a resposta contém "CONNECTED"
-        // A resposta exata pode variar, ex: "+STATE:CONNECTED\r\n"
-        if (strstr(status_response, "CONNECTED") != NULL) {
-            char connected_msg[20];
-            snprintf(connected_msg, sizeof(connected_msg), "CONECTADO!");
-            display_message(&display, 20, 16, 1, connected_msg);
-
-            // Se conectado, verifica se há dados recebidos
-            if (uart_is_readable(UART_ID)) { // Pode haver dados após a resposta do AT+STATE
-                char message[50];
-                uart_get_string(UART_ID, message, sizeof(message)); // Lê a string recebida
-                display_message(&display, 0, 32, 1, message);
-                printf("Msg Recebida: %s\n", message);  // Exibe no monitor serial
-            }
-
-        } else {
-            // Se não estiver conectado, ou se a resposta não for reconhecida
-            char waiting_msg[20];
-            snprintf(waiting_msg, sizeof(waiting_msg), "Aguardando...");
-            display_message(&display, 10, 32, 1, waiting_msg);
-
-            // Ainda tenta ler qualquer mensagem que possa ter chegado
-            if (uart_is_readable(UART_ID)) {
-                char message[50];
-                uart_get_string(UART_ID, message, sizeof(message));
-                display_message(&display, 0, 32, 1, message);
-                printf("Msg (nao conectado?): %s\n", message);
-            }
-        }
-
-        display_show(&display); // Atualiza o display
-        sleep_ms(2000); // Verifica o status a cada 2 segundos
+        sleep_ms(5000);
 
     }
 
