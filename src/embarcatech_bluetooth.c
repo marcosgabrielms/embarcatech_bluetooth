@@ -81,7 +81,7 @@ int main() {
 
     char message_1[20];
     snprintf(message_1, sizeof(message_1), "START BLUETOOTH");
-    display_message(&display, 20, 0, 1, message_1); // Exibe mensagem no display
+    display_message(&display, 0, 32, 1, message_1); // Exibe mensagem no display
     display_show(&display); // Atualiza o display
 
     sleep_ms(5000); // Aguarda 5 segundos
@@ -93,20 +93,24 @@ int main() {
 
         // Verifica se há dados recebidos via Bluetooth
         if (uart_is_readable(UART_ID)) {
+            char title[20];
+            snprintf(title, sizeof(title), "RECEIVED:");
+            display_message(&display, 0, 20, 1, title); // Exibe título no display
+
             char message[60];
-            snprintf(message, sizeof(message), "RECEIVED: ");
             uart_get_string(UART_ID, message, sizeof(message)); // Lê a string recebida
             display_message(&display, 0, 32, 1, message);
+
             display_show(&display); // Atualiza o display
             printf("%s", message);  // Exibe no monitor serial
         } else 
         {
             char message_1[20];
-            snprintf(message_1, sizeof(message_1), "START BLUETOOTH");
-            display_message(&display, 20, 0, 1, message_1); // Exibe mensagem no display
+            snprintf(message_1, sizeof(message_1), "WAITING DATA...");
+            display_message(&display, 0, 32, 1, message_1); // Exibe mensagem no display
             display_show(&display); // Atualiza o display
         }
-        sleep_ms(1000);
+        sleep_ms(2500);
 
     }
 
