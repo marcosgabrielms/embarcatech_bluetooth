@@ -38,6 +38,7 @@ pico_sdk_init()
 add_executable(embarcatech_bluetooth 
     src/embarcatech_bluetooth.c
     src/bluetooth/bluetooth.c
+    ssd1306/ssd1306.c
     )
 
 pico_set_program_name(embarcatech_bluetooth "embarcatech_bluetooth")
@@ -52,6 +53,7 @@ target_include_directories(embarcatech_bluetooth PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/src
         ${CMAKE_CURRENT_LIST_DIR}/src/bluetooth
+        ${CMAKE_CURRENT_LIST_DIR}/ssd1306
     
 )
 
@@ -59,6 +61,7 @@ target_include_directories(embarcatech_bluetooth PRIVATE
 target_link_libraries(embarcatech_bluetooth 
         pico_stdlib
         hardware_uart
+        hardware_i2c
         pico_cyw43_arch_lwip_threadsafe_background
         )
 
