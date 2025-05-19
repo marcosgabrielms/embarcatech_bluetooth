@@ -74,26 +74,17 @@ int main() {
 
     display_clear(&display); // Limpa o display
 
-    char message_1[20];
-    snprintf(message_1, sizeof(message_1), "START BLUETOOTH");
-    display_message(&display, 20, 0, 1, message_1); // Exibe mensagem no display
-    display_show(&display); // Atualiza o display
-
-    sleep_ms(2000); // Aguarda 2 segundos
-
-    display_clear(&display); // Limpa o display
-
     // Inicializa a UART (Bluetooth)
     uart_init(UART_ID, BAUD_RATE);
     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
 
-    char message_2[20];
-    snprintf(message_2, sizeof(message_2), "STAY MESSAGE");
-    display_message(&display, 20, 15, 1, message_2); // Exibe mensagem no display
+    char message_1[20];
+    snprintf(message_1, sizeof(message_1), "START BLUETOOTH");
+    display_message(&display, 20, 0, 1, message_1); // Exibe mensagem no display
     display_show(&display); // Atualiza o display
 
-    sleep_ms(2000); // Aguarda 2 segundos
+    sleep_ms(5000); // Aguarda 5 segundos
 
     // Loop principal
     while (true) {
@@ -102,13 +93,20 @@ int main() {
 
         // Verifica se há dados recebidos via Bluetooth
         if (uart_is_readable(UART_ID)) {
-            char message[50];
+            char message[60];
+            snprintf(message, sizeof(message), "RECEIVED: ");
             uart_get_string(UART_ID, message, sizeof(message)); // Lê a string recebida
             display_message(&display, 0, 32, 1, message);
             display_show(&display); // Atualiza o display
             printf("%s", message);  // Exibe no monitor serial
+        } else 
+        {
+            char message_1[20];
+            snprintf(message_1, sizeof(message_1), "START BLUETOOTH");
+            display_message(&display, 20, 0, 1, message_1); // Exibe mensagem no display
+            display_show(&display); // Atualiza o display
         }
-        sleep_ms(5000);
+        sleep_ms(1000);
 
     }
 
