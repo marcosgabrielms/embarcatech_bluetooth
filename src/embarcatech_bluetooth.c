@@ -99,10 +99,19 @@ int main() {
 
             char message[60];
             uart_get_string(UART_ID, message, sizeof(message)); // Lê a string recebida
-            display_message(&display, 0, 32, 1, message);
+            
+            // Verifica se a string recebida não está vazia
+            if (message[0] != '\0') {
+                display_message(&display, 0, 32, 1, message); // Exibe mensagem no display
+                printf("%s", message);  // Exibe no monitor serial
+            }
 
             display_show(&display); // Atualiza o display
-            printf("%s", message);  // Exibe no monitor serial
+
+            while (uart_is_readable_within_us(UART_ID, 10000)) { // Aguarda até 10ms para ler mais dados
+                uart_get(UART_ID); // Lê o próximo caractere
+            }
+
         } else 
         {
             char message_1[20];
