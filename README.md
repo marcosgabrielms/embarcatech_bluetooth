@@ -82,7 +82,6 @@ O projeto está configurado para ser desenvolvido e compilado utilizando o SDK d
     * Os caracteres recebidos via Bluetooth serão impressos no monitor serial.
 
 ## Estrutura do Diretório
-.
 ├── .vscode/                  # Configurações do Visual Studio Code (IntelliSense, debug, tasks)
 ├── build/                    # (Gerado após compilação) Contém os arquivos de build
 ├── src/
