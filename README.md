@@ -82,6 +82,7 @@ O projeto está configurado para ser desenvolvido e compilado utilizando o SDK d
     * Os caracteres recebidos via Bluetooth serão impressos no monitor serial.
 
 ## Estrutura do Diretório
+```
 ├── .vscode/                  # Configurações do Visual Studio Code (IntelliSense, debug, tasks)
 ├── build/                    # (Gerado após compilação) Contém os arquivos de build
 ├── src/
@@ -95,7 +96,7 @@ O projeto está configurado para ser desenvolvido e compilado utilizando o SDK d
 │   └── ssd1306.h             # Arquivo de cabeçalho para o driver SSD1306
 ├── CMakeLists.txt            # Script de configuração do CMake para o projeto
 └── lwipopts.h                # Opções de configuração para a pilha LwIP (para Pico W)
-
+```
 
 Para Desenvolvimentos Futuros,
 Integrar Display SSD1306: Adicione código em src/embarcatech_bluetooth.c para inicializar e usar as funções da biblioteca ssd1306/ para exibir informações recebidas ou status.,
