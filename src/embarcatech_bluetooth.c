@@ -109,7 +109,7 @@ int main() {
             display_show(&display); // Atualiza o display
 
             while (uart_is_readable_within_us(UART_ID, 10000)) { // Aguarda até 10ms para ler mais dados
-                uart_get(UART_ID); // Lê o próximo caractere
+                uart_getc(UART_ID); // Lê o próximo caractere
             }
 
         } else 
