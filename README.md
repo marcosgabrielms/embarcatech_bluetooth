@@ -97,14 +97,3 @@ O projeto está configurado para ser desenvolvido e compilado utilizando o SDK d
 ├── CMakeLists.txt            # Script de configuração do CMake para o projeto
 └── lwipopts.h                # Opções de configuração para a pilha LwIP (para Pico W)
 ```
-
-Para Desenvolvimentos Futuros,
-Integrar Display SSD1306: Adicione código em src/embarcatech_bluetooth.c para inicializar e usar as funções da biblioteca ssd1306/ para exibir informações recebidas ou status.,
-Utilizar a Biblioteca src/bluetooth/: Integre ou escolha utilizar as funções de src/bluetooth/bluetooth.c para comunicação via UART1, se necessário.,
-Tratamento de Comandos: Implemente uma lógica para processar comandos específicos recebidos via Bluetooth, em vez de apenas ecoar os caracteres.,
-
-Contribuições,
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
-Licença,
-(Defina uma licença, se aplicável. Note que a biblioteca SSD1306 incluída no subdire
